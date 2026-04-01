@@ -1,0 +1,18 @@
+services:
+  core:
+    container_name: core
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+        AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+        AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+        AWS_BUCKET: ${AWS_BUCKET}
+        AWS_REGION: ${AWS_REGION}
+    env_file:
+      - .env
+volumes:
+  mvn_cache:

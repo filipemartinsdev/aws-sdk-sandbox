@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: cheatsheet
+
+  datasource:
+    url: jdbc:h2:mem:test
+    username: test
+    password: test
+
+  cloud:
+    aws:
+      s3:
+        region: ${AWS_REGION:us-east-2}
+        bucket-name: ${AWS_BUCKET:test}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY:test}
+        secret-key: ${AWS_SECRET_KEY:test}
+      region:
+        static: ${AWS_REGION:us-east-2}
