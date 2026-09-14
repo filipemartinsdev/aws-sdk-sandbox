@@ -7,12 +7,27 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    depends_on:
+      floci:
+        condition: service_started
     environment:
-        AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-        AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-        AWS_BUCKET: ${AWS_BUCKET}
-        AWS_REGION: ${AWS_REGION}
-    env_file:
-      - .env
+      AWS_ENDPOINT: http://floci:4566
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY:-test}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY:-test}
+      AWS_BUCKET: ${AWS_BUCKET:-test}
+      AWS_REGION: ${AWS_REGION:-us-east-2}
+
+  floci:
+    container_name: floci
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+      - ./data:/app/data:z
+    environment:
+      FLOCI_STORAGE_MODE: hybrid
+      FLOCI_HOSTNAME: floci
+
 volumes:
   mvn_cache:
